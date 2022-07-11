@@ -7,17 +7,12 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
     <script defer src="js/app.js"></script>
-    <title>Contador</title>
+    <title>Componente</title>
 </head>
 <body>
     <div class="box" id="app">
-        <div id="contador">
-            <button v-on:click="restar()">-</button>
-            <h1>{{totalContador}}</h1>
-            <button v-on:click="sumar()">+</button>
-            
-        </div>
-
+        <mi-table class="myTableStyle" 
+        :alumnos='alumnos' />        
         
     </div>
 </body>
