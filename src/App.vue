@@ -1,57 +1,105 @@
 <template>
   <div id="app">
-    <MyTable 
-      :alumnos="mis_datos"
-      :new_style="estilo_verde_azul"/>
+    <AccessPage :usuarios='usuarios' v-if="!canAccess" @cambiar="changeAccesss" @cambiarYAgregar="agregarYCambiar"/>
+    
+    <ListProducts v-if="canAccess" :productos="productos" @cambiar="changeAccesss"/>
   </div>
 </template>
 
 <script>
-import MyTable from './components/MyTable.vue'
+import ListProducts from './components/ListProducts.vue'
+import AccessPage from './components/AccessPage.vue'
+
 
 export default {
   name: 'App',
   components: {
-    MyTable
+    ListProducts,
+    AccessPage,
   },
   data(){
     return{
-      estilo_verde_azul:'background: linear-gradient(56deg, #c4ff02 20%,  #00eaff 100%);',
-      estilo_naranja_lima:'background: linear-gradient(56deg, #e86c07 20%,  #bbff00 100%);',
-      mis_datos:[
+      canAccess: false,
+      usuarios:[],
+      productos:[
             {
-                'nombre'        :   'Jonathan',
-                'edad'          :   26,
-                'nacionalidad'  :   'Argentina'
+                'id'            :   1,
+                'nombre'        :   'Antifaz',
+                'precio'        :   300,
+                'descripcion'   :   'Antifaz para dormir',
+                'imagen'        :   'antifaz.jpg'
             },
             {
-                'nombre'        :   'Andrea',
-                'edad'          :   43,
-                'nacionalidad'  :   'Argentina'
+                'id'            :   2, 
+                'nombre'        :   'Botella',
+                'precio'        :   700,
+                'descripcion'   :   'Botella de acero inoxidable de 500ml',
+                'imagen'        :   'botella.jpg'
             },
             {
-                'nombre'        :   'Leonardo',
-                'edad'          :   32,
-                'nacionalidad'  :   'Venezuela'
+                'id'            :   3,
+                'nombre'        :   'Buzo',
+                'precio'        :   3000,
+                'descripcion'   :   'Buzo estilo canguro, todos los talles',
+                'imagen'        :   'buzo.jpg'
             },
             {
-                'nombre'        :   'Gisele',
-                'edad'          :   26,
-                'nacionalidad'  :   'España'
+                'id'            :   4,
+                'nombre'        :   'funda',
+                'precio'        :   800,
+                'descripcion'   :   'funda de silicona para Iphone, todos los modelos',
+                'imagen'        :   'funda.jpg'
+            },
+            {
+                'id'            :   5,
+                'nombre'        :   'gorro',
+                'precio'        :   800,
+                'descripcion'   :   'Gorro ajustable',
+                'imagen'        :   'gorro.jpg'
+            },
+            {
+                'id'            :   6,
+                'nombre'        :   'Mochila',
+                'precio'        :   2500,
+                'descripcion'   :   'Mochila apta para transportar notebook',
+                'imagen'        :   'mochila.jpg'
+            },
+            {
+                'id'            :   7,
+                'nombre'        :   'remera',
+                'precio'        :   1000,
+                'descripcion'   :   'remera 100% algodon, todos los talles ',
+                'imagen'        :   'remera.jpg'
+            },
+            {
+                'id'            :   8,
+                'nombre'        :   'taza',
+                'precio'        :   500,
+                'descripcion'   :   'taza de ceramica ',
+                'imagen'        :   'taza.jpg'
             },
         ]
     }
+  },
+  methods:{
+    changeAccesss(){
+      this.canAccess = !this.canAccess      
+    },
+    agregarYCambiar(payload){
+      this.usuarios.push(payload)
+      this.changeAccesss()
+    }    
   }
 }
 </script>
 
 <style>
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

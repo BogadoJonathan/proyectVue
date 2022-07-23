@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>MI TABLE</h1>
+    <img src="../assets/img/antifaz.jpg" alt="">
       <table class="myTableStyle">
             <thead :style="new_style">
                 <tr>
