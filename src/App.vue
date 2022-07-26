@@ -1,21 +1,23 @@
 <template>
   <div id="app">
-    <AccessPage :usuarios='usuarios' v-if="!canAccess" @cambiar="changeAccesss" @cambiarYAgregar="agregarYCambiar"/>
-    
-    <ListProducts v-if="canAccess" :productos="productos" @cambiar="changeAccesss"/>
+    <FormularioWeb/>
+    <!-- <AccessPage :usuarios='usuarios' v-if="!canAccess" @cambiar="changeAccesss" @cambiarYAgregar="agregarYCambiar"/>
+    <ListProducts v-if="canAccess" :productos="productos" @cambiar="changeAccesss"/> -->
   </div>
 </template>
 
 <script>
-import ListProducts from './components/ListProducts.vue'
-import AccessPage from './components/AccessPage.vue'
+// import ListProducts from './components/ListProducts.vue'
+// import AccessPage from './components/AccessPage.vue'
+import FormularioWeb from './components/FormularioWeb.vue'
 
 
 export default {
   name: 'App',
   components: {
-    ListProducts,
-    AccessPage,
+    FormularioWeb
+    // ListProducts,
+    // AccessPage,
   },
   data(){
     return{
