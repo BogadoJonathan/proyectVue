@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>FORMULARIO</h1>
-    <div class="container">
+    <div class="container" id="myFormulario">
       <form action="" @submit.prevent="validarContenidoCargado">
         <div class="row">
           <div class="col col-6">
@@ -51,7 +51,7 @@
               <textarea
                 class="form-control"
                 id="areaComentarios"
-                rows="3"></textarea>
+                rows="3" v-model.trim="comentario"></textarea>
                 <br />
               <br />
           </div>
@@ -127,7 +127,7 @@
           </ul>
         </div>
 
-        <div class="col-2">
+        <div id='btnEnviar' class="col-2">
           <input type="submit" class="btn btn-primary" value="ENVIAR" />
         </div>
 
@@ -135,12 +135,21 @@
 
       </form>
     </div>
+
+    <MyTable v-if="dato.length!=0" :datos="dato"/>
+
+
   </div>
 </template>
 
 <script>
+import MyTable from './MyTable.vue'
+
 export default {
   name: "FormularioWeb",
+  components: {
+    MyTable,
+  },
   data() {
     return {
       nombre: '',
@@ -148,7 +157,9 @@ export default {
       edad: 0,
       chequeados: [],
       documento: null,
-      errors: []
+      comentario: '',
+      errors: [],
+      dato:[]
     };
   },
   methods:{
@@ -161,7 +172,17 @@ export default {
         if (!isNaN(this.nombre)){this.errors.push('no puedes ingresar numeros en el nombre')
           return false
         }
-        alert('todo ok')
+        alert('dato cargado')
+        this.dato.push({
+          nombre: this.nombre,
+          email: this.email,
+          edad: this.edad,
+          cursos: this.chequeados,
+          documento: this.documento,
+          comentario: this.comentario
+        })
+        this.vaciarDatos()
+        e.preventDefault()
         return true
       }
       if (this.nombre === '') {this.errors.push('El nombre es obligatorio.')}
@@ -169,8 +190,14 @@ export default {
       if (this.edad === 0) {this.errors.push('La edad debe ser mayor a 0 (cero).')}
       if (this.documento === null) {this.errors.push('Selecciona un documento')}
       e.preventDefault()
-
-
+    },
+    vaciarDatos(){
+          this.nombre= ''
+          this.email= ''
+          this.edad= 0
+          this.chequeados= []
+          this.documento=null
+          this.comentario= ''
     }
   }
 };
@@ -178,4 +205,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#myFormulario{
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 100px;
+}
+
+#btnEnviar{
+  margin: 0 auto;
+}
 </style>

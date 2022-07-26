@@ -1,21 +1,25 @@
 <template>
   <div>
-    <h1>MI TABLE</h1>
-    <img src="../assets/img/antifaz.jpg" alt="">
+    <h1>MIS DATOS</h1>
       <table class="myTableStyle">
             <thead :style="new_style">
                 <tr>
                     <th>Nombre</th>
+                    <th>email</th>
                     <th>edad</th>
-                    <th>Nacionalidad</th>
+                    <th>documento</th>
+                    <th>cursos</th>
+                    <th>comentarios</th>
                 </tr>
             </thead>
             <tbody>
-                <tr  v-for="(item,i) in alumnos" :key="i">
+                <tr  v-for="(item,i) in datos" :key="i">
                     <td >{{item.nombre}}</td>
+                    <td >{{item.email}}</td>
                     <td>{{item.edad}}</td>
-                    <td>{{item.nacionalidad}}</td>
-                    {{clase}}
+                    <td>{{item.documento}}</td>
+                    <td><ul> <li v-for="(curso,c) in item.cursos" :key="c">{{curso}}</li> </ul> </td>
+                    <td>{{item.comentario}}</td>
                 </tr>
             </tbody>
         </table>   
@@ -25,8 +29,7 @@
 <script>
 export default {
   name: 'MyTable',
-  props:['alumnos','new_style']
-
+  props:['datos']
 }
 </script>
 
@@ -36,6 +39,7 @@ export default {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 200px;
   }
   .myTableStyle thead{
   text-align: center;
