@@ -34,15 +34,16 @@
 
 <script>
 import CarritoDetalle from './CarritoDetalle.vue'
+import axios from 'axios'
 
 export default {
   name: "ListProducts",
   components: {
     CarritoDetalle,
   },
-  props: ["productos"],
   data(){
     return{
+      productos:[],
       verCarro:false,
       carrito:[],
       cantidadCarrito: 0
@@ -67,11 +68,19 @@ export default {
     cambiarACarrito(){
       this.verCarro = !this.verCarro
     },
-
     salir() {
       this.$emit("cambiar");
     },
-  }
+    getProducts(){
+      axios.get('https://62e857de93938a545be4aa1a.mockapi.io/productos')
+      .then((response) => {this.productos = response.data})
+      .catch((err) => {console.error(`${err}`)})
+    },
+  },
+  mounted(){
+     // invocar los métodos
+     this.getProducts();
+    },
 };
 </script>
 

@@ -36,11 +36,13 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: "LoginPage",
-  props:['usuarios'],
   data(){
     return{
+      usuarios:[],
       email: '',
       password: '',
     }},
@@ -49,9 +51,21 @@ export default {
       let found = this.usuarios.find(element => element.email == this.email && element.password == this.password)
 
       if(found){
-        this.$emit('cambiar')
+        this.$emit('cambiar', found)
       }
-    }
+    },
+    getUsers(){
+        axios.get('https://62e857de93938a545be4aa1a.mockapi.io/users')
+        .then((response) => {
+          this.usuarios = response.data
+          this.usersCargados=true
+          })
+        .catch((err) => {console.error(`${err}`)})
+    },
+  },
+  mounted(){
+    // invocar los métodos
+    this.getUsers()
   },
 };
 </script>

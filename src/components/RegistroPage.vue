@@ -36,29 +36,65 @@
           ></b-form-input>
         </b-form-group>
 
+        <div v-if="errors.length > 0">
+          <ul class="text-warning fw-bold">
+            <li v-for="error in errors" v-bind:key="error.index">{{ error }}</li>
+          </ul>
+        </div>
+
         <b-button type="submit"  variant="primary">Registrar</b-button>
         <b-button type="reset"  variant="danger">Limpiar</b-button>
       </b-form>
+      <b-modal id="modalUser" title="BootstrapVue">
+      <p class="my-4">{{this.usuario.nombre}} a sido cargado con exito</p>
+    </b-modal>
+
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: "RegistroPage",
   data() {
     return {
+      errors:[],
       usuario: {
-          email: '',
-          nombre: '',
-          password: '',
+          "nombre": '',
+          "email": '',
+          "isAdmin": false,
+          "password": '',
         },
-
       show: true
     };
   },
   methods: {
-    onSubmit() {
-        this.$emit('guardar',this.usuario)
+    onSubmit(e) {
+      e.preventDefault()
+      this.errors = []
+      if (this.usuario.nombre && this.usuario.email && this.usuario.password) {
+        if (!isNaN(this.nombre)){
+          this.errors.push('no puedes ingresar numeros en el nombre')
+          return false
+        }
+        if(this.usuario.password.length <5){
+          this.errors.push('la contraseña debe tener 5 o mas caracteres')
+          return false
+        }
+
+        axios.post('https://62e857de93938a545be4aa1a.mockapi.io/users', this.usuario)
+        .then(() => {
+                    this.$bvModal.show('modalUser')
+                    this.$emit('guardar', this.usuario)})
+        .catch((err) => {console.error(`${err}`)})
+
+        return true
+      }
+      if (this.usuario.nombre === '') {this.errors.push('El nombre es obligatorio.')}
+      if (this.usuario.email === '') {this.errors.push('El correo electrónico es obligatorio.')}
+      if (this.usuario.password === '') {this.errors.push('El password es obligatorio.')}
+      
       },
     onReset() {
         // Reset our form values
