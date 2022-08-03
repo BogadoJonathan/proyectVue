@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <router-link to="/">Home</router-link>
-    <router-link to="/admin">admin</router-link>
-    <router-view/>
+    <!-- <router-link to="/">Home</router-link>
+    <router-link to="/admin">admin</router-link> -->
+    <router-view  />
 
     <!-- <FormularioWeb/> -->
     <!-- <AccessPage :usuarios='usuarios' v-if="!canAccess" @cambiar="changeAccesss" @cambiarYAgregar="agregarYCambiar"/> -->
@@ -31,7 +31,6 @@ export default {
     }
   },
   methods:{
-    
     agregarYCambiar(payload){
       this.usuarios.push(payload)
       this.changeAccesss()

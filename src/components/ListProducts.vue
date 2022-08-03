@@ -8,8 +8,7 @@
     
     <CarritoDetalle v-if="verCarro" :carrito="carrito" :productos="productos"/>
     <div v-if="!verCarro" class="listProductos">
-      <b-card
-        v-for="(item, i) in productos"
+      <b-card v-for="(item, i) in productos"
         :key="i"
         :title="item.nombre"
         :img-src="require('../assets/img/' + item.imagen)"

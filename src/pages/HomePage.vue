@@ -10,6 +10,9 @@
       <div v-if="!isAdmin" >
           <ListProducts @cambiar="changeAccesss"/>
       </div>
+      <div v-else>
+          <a href="/admin"><button>Acceder al panel</button></a>
+      </div>
     </section>
     
   </div>
