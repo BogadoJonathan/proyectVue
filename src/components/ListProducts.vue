@@ -6,7 +6,7 @@
       <b-button style="margin: 10px" @click="salir">Salir</b-button>
     </div>
     
-    <CarritoDetalle v-if="verCarro" :carrito="carrito" :productos="productos"/>
+    <CarritoDetalle v-if="verCarro" :carrito="carrito" :productos="productos" @vaciar='vaciarCarrito'/>
     <div v-if="!verCarro" class="listProductos">
       <b-card v-for="(item, i) in productos"
         :key="i"
@@ -25,7 +25,7 @@
           <b-list-group-item>${{ item.precio }}</b-list-group-item>
         </b-list-group>
 
-        <b-button @click="agregarAlCarrito(item.id)" variant="primary">Agregar +</b-button>
+        <b-button @click="agregarAlCarrito(item)" variant="primary">Agregar +</b-button>
       </b-card>
     </div>
   </div>
@@ -49,17 +49,22 @@ export default {
     }
   },
   methods: {
+    vaciarCarrito(){
+      this.carrito=[]
+    },
     agregarAlCarrito(payload){
       this.cantidadCarrito += 1
 
-      let found = this.carrito.find(element => element.id == payload)
+      let found = this.carrito.find(element => element.id == payload.id)
       if(found){
         found.cantidad +=1
         }
       else{
         let dato = {
-          'id':payload,
-          'cantidad':1
+          'id':payload.id,
+          'cantidad':1,
+          'nombre': payload.nombre
+
         }
         this.carrito.push(dato)
       }
