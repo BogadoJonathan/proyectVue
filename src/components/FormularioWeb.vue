@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>FORMULARIO</h1>
+    
     <div class="container" id="myFormulario">
       <form action="" @submit.prevent="validarContenidoCargado">
         <div class="row">
@@ -129,34 +130,31 @@
 
         <div id='btnEnviar' class="col-2">
           <input type="submit" class="btn btn-primary" value="ENVIAR" />
-        </div>
-
-
+        </div><br>
+        
 
       </form>
+      <a href="/datosForm"><button class="btn btn-success">Ver datos cargados</button></a>
     </div>
-
-    <MyTable v-if="dato.length!=0" :datos="dato"/>
-
+    <b-modal id="modalproduct" title="BootstrapVue">
+      <p class="my-4">Formulario Enviado</p>
+    </b-modal> 
 
   </div>
 </template>
 
 <script>
-import MyTable from './MyTable.vue'
+import axios from 'axios'
 
 export default {
   name: "FormularioWeb",
-  components: {
-    MyTable,
-  },
   data() {
     return {
       nombre: '',
       email:'',
       edad: 0,
       chequeados: [],
-      documento: null,
+      documento: '',
       comentario: '',
       errors: [],
       dato:[]
@@ -164,6 +162,7 @@ export default {
   },
   methods:{
     validarContenidoCargado(e){
+      e.preventDefault()
       this.errors = []
       if (this.nombre && this.edad && this.email && this.documento) {
         if (this.edad < 0){this.errors.push('la edad no puede ser menor a 0')
@@ -172,23 +171,28 @@ export default {
         if (!isNaN(this.nombre)){this.errors.push('no puedes ingresar numeros en el nombre')
           return false
         }
-        alert('dato cargado')
-        this.dato.push({
+        
+        let nuevoDato = {
           nombre: this.nombre,
-          email: this.email,
+          email:this.email,
           edad: this.edad,
-          cursos: this.chequeados,
+          chequeados: this.chequeados,
           documento: this.documento,
-          comentario: this.comentario
-        })
-        this.vaciarDatos()
-        e.preventDefault()
+          comentario: this.comentario,
+        }
+
+        axios.post('https://62e857de93938a545be4aa1a.mockapi.io/formulario', nuevoDato)
+        .then(() => {
+                    // this.$router.go(0)
+                    this.$bvModal.show('modalproduct')
+                    this.vaciarDatos()
+                    })
         return true
       }
       if (this.nombre === '') {this.errors.push('El nombre es obligatorio.')}
       if (this.email === '') {this.errors.push('El correo electrónico es obligatorio.')}
       if (this.edad === 0) {this.errors.push('La edad debe ser mayor a 0 (cero).')}
-      if (this.documento === null) {this.errors.push('Selecciona un documento')}
+      if (this.documento === '') {this.errors.push('Selecciona un documento')}
       e.preventDefault()
     },
     vaciarDatos(){

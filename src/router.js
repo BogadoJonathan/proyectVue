@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import HomePage from './pages/HomePage'
+//import HomePage from './pages/HomePage'
 
 Vue.use(VueRouter)
 
@@ -12,12 +12,17 @@ export default new VueRouter({
         {
             path:'/',
             name: 'home',
-            component: HomePage
+            component: () => import('./components/FormularioWeb')//HomePage
         },
         {
             path:'/admin',
             name: 'admin',
             component: () => import('./pages/AdminPage')
+        },
+        {
+            path:'/datosForm',
+            name: 'datosForm',
+            component: () => import('./components/ResultadoForm')
         }
 
     ]
