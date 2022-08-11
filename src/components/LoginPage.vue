@@ -48,6 +48,7 @@ export default {
     }},
   methods: {
     ingresar(){
+      console.log('ingresar con el boton')
       let found = this.usuarios.find(element => element.email == this.email && element.password == this.password)
 
       if(found){

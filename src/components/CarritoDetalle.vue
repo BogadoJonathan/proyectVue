@@ -2,8 +2,8 @@
   <div>
     <h1>CARRITO</h1>
     <ul>
-      <li v-for="(item, i) in carrito" :key="i">
-        <b>Nombre:</b> {{productos.find(element => element.id == item.id).nombre}}
+      <li v-for="(item, i) in $store.getters.getCarrito" :key="i">
+        <b>Nombre:</b> {{$store.getters.getProducts.find(element => element.id == item.id).nombre}}
         <b>Cantidad:</b> {{item.cantidad}} 
         <b>Precio unitario:</b> {{sacarPrecioUnitario(item.id)}}
         <b>SubTotal:</b> {{obtenerSubtotal(item.cantidad)}}
@@ -41,7 +41,6 @@ import axios from 'axios'
 
 export default {
   name: 'CarritoDetalle',
-  props:['carrito','productos'],
   data(){
     return{
       precioUnitario: 0,
@@ -52,18 +51,19 @@ export default {
     completar(){
       let saveCarrito = {
         'total': this.sumarAlTotal,
-        'articulos':this.carrito
+        'articulos':this.$store.getters.getCarrito
       }
 
       if (saveCarrito.total >0){
         axios.post('https://62e857de93938a545be4aa1a.mockapi.io/carrito', saveCarrito)
         .then(() => {
-          this.getCarrito()
-          this.$emit('vaciar')})
+          this.getCarritoGuardados()
+          this.$store.dispatch('VaciarCarrito')
+          })
       }
       
     },
-    getCarrito(){
+    getCarritoGuardados(){
        axios.get('https://62e857de93938a545be4aa1a.mockapi.io/carrito')
        .then((response) => {
           this.carritosGuardados = response.data
@@ -71,9 +71,14 @@ export default {
         .catch((err) => {console.error(`${err}`)})
     },
     sacarPrecioUnitario(id){
-      let precio = this.productos.find(element => element.id == id).precio
-      this.precioUnitario = precio
-      return precio
+      this.getProducto.forEach(element=> {
+        if (element.id == id){
+          let precio = element.precio
+          this.precioUnitario = precio
+          return precio
+          }
+        })
+
     },
     obtenerSubtotal(cantidad){
       let subTotal = this.precioUnitario*cantidad
@@ -81,12 +86,19 @@ export default {
     }
   },
   computed:{
+    getProducto(){
+      return this.$store.getters.getProducts
+    },
     sumarAlTotal(){
       let total = 0
-      this.carrito.forEach(item => {
-        let precioUnitario = this.productos.find(element => element.id == item.id).precio
-        total += precioUnitario*item.cantidad           
+       this.$store.getters.getCarrito.forEach(item => {
+        this.getProducto.forEach(element=> {
+          if (element.id == item.id){
+            total +=element.precio
+          }
+        })
       })
+
       return total
     }
     
@@ -94,7 +106,7 @@ export default {
   ,
   mounted(){
     // invocar los métodos
-    this.getCarrito()
+    this.getCarritoGuardados()
   },
 }
 

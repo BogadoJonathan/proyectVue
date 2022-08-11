@@ -1,14 +1,14 @@
 <template>
-  <div >
-    <section class="access" v-if="!canAccess">
+  <div>
+    <section class="access" v-if="!$store.getters.getAccess">
       <LoginPage @cambiar="ingresar"/>
       <RegistroPage  @guardar="ingresar"/>
     </section>
 
-    <section v-if="canAccess"> 
+    <section v-if="$store.getters.getAccess"> 
       <h1> bienvenido {{nombre}}</h1>
-      <div v-if="!isAdmin" >
-          <ListProducts @cambiar="changeAccesss"/>
+      <div v-if="!$store.getters.getIsAdmin" >
+          <ListProducts />
       </div>
       <div v-else>
           <a href="/admin"><button>Acceder al panel</button></a>
@@ -34,19 +34,20 @@ export default {
   data(){
     return{
       nombre:'',
-      isAdmin: false,
-      canAccess: false,
     }
   },
   methods:{
     ingresar(user){
+      console.log('aca cambiaria')
+
       this.nombre = user.nombre
-      this.isAdmin = user.isAdmin
+      if(user.isAdmin){
+        this.$store.dispatch('ChangeAdmin')
+      }    
       this.changeAccesss()
     },
     changeAccesss(){
-      console.log('cambie')
-      this.canAccess = !this.canAccess      
+      this.$store.dispatch('ChangeAccess')   
     },
     getProducts(){
       axios.get('https://62e857de93938a545be4aa1a.mockapi.io/productos')

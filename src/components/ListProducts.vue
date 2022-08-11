@@ -6,9 +6,9 @@
       <b-button style="margin: 10px" @click="salir">Salir</b-button>
     </div>
     
-    <CarritoDetalle v-if="verCarro" :carrito="carrito" :productos="productos" @vaciar='vaciarCarrito'/>
+    <CarritoDetalle v-if="verCarro" />
     <div v-if="!verCarro" class="listProductos">
-      <b-card v-for="(item, i) in productos"
+      <b-card v-for="(item, i) in $store.getters.getProducts"
         :key="i"
         :title="item.nombre"
         :img-src="require('../assets/img/' + item.imagen)"
@@ -33,7 +33,6 @@
 
 <script>
 import CarritoDetalle from './CarritoDetalle.vue'
-import axios from 'axios'
 
 export default {
   name: "ListProducts",
@@ -42,48 +41,28 @@ export default {
   },
   data(){
     return{
-      productos:[],
       verCarro:false,
-      carrito:[],
       cantidadCarrito: 0
     }
   },
   methods: {
     vaciarCarrito(){
-      this.carrito=[]
+      this.$store.dispatch('VaciarCarrito')
     },
     agregarAlCarrito(payload){
       this.cantidadCarrito += 1
-
-      let found = this.carrito.find(element => element.id == payload.id)
-      if(found){
-        found.cantidad +=1
-        }
-      else{
-        let dato = {
-          'id':payload.id,
-          'cantidad':1,
-          'nombre': payload.nombre
-
-        }
-        this.carrito.push(dato)
-      }
+      this.$store.dispatch('AgregarAlCarrito',payload)
     },
     cambiarACarrito(){
       this.verCarro = !this.verCarro
     },
     salir() {
-      this.$emit("cambiar");
-    },
-    getProducts(){
-      axios.get('https://62e857de93938a545be4aa1a.mockapi.io/productos')
-      .then((response) => {this.productos = response.data})
-      .catch((err) => {console.error(`${err}`)})
-    },
+      this.$store.dispatch('ChangeAccess')
+    }
   },
   mounted(){
      // invocar los métodos
-     this.getProducts();
+     this.$store.dispatch('cargarDatosProductos')
     },
 };
 </script>
