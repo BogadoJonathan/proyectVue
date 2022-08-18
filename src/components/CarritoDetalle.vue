@@ -16,19 +16,18 @@
 
       <h2>carritos guardados</h2>
         <div class="carritos">
-          <b-card v-for="(carro) in carritosGuardados" :key="carro.id"
-            no-body
-            style="max-width: 20rem;"
-          >
-            <template #header>
-              <h4 class="mb-0">TOTAL: {{carro.total}}</h4>
-            </template>
+          <div class="card" v-for="(carro) in carritosGuardados" :key="carro.id" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">TOTAL: {{carro.total}}</h5>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item" v-for="(art) in carro.articulos" :key="art.id">
+                  {{art.nombre}} x{{art.cantidad}}</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+              </ul>
+            </div>
+          </div>
 
-            <b-list-group flush v-for="(art) in carro.articulos" :key="art.id">
-              <b-list-group-item>{{art.nombre}} x{{art.cantidad}}</b-list-group-item>
-            </b-list-group>
-
-          </b-card>
         </div>
 
     </div>

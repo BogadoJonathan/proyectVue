@@ -1,10 +1,7 @@
 import Vuex from "vuex";
-import Vue from "vue";
 import axios from "axios"
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default Vuex.createStore({
     state:{
         isAdmin:false,
         access: false,
@@ -79,4 +76,4 @@ export default new Vuex.Store({
         }
     }
 
-})
+});

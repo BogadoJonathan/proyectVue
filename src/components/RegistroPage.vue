@@ -1,112 +1,122 @@
 <template>
   <div id="form">
     <h1>REGISTER</h1>
-      <b-form v-if="show" @submit="onSubmit" @reset="onReset">
-        <b-form-group
-          id="input-group-1"
-          label="Email address:"
-          label-for="input-1"
-          description="We'll never share your email with anyone else."
-        >
-          <b-form-input
-            id="input-1"
-            v-model="usuario.email"
-            type="email"
-            placeholder="Enter email"
-            required
-          ></b-form-input>
-        </b-form-group>
+    <form v-if="show">
+      <div class="form-group">
+        <label for="InputEmailRegister">Email address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="InputEmailRegister"
+          v-model="usuario.email"
+          aria-describedby="emailHelp"
+          placeholder="Enter email"
+        />
+      </div>
+      <div class="form-group">
+        <label for="InputNameRegister">Your name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="InputNameRegister"
+          v-model="usuario.nombre"
+          placeholder="Enter your name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="InputPasswordRegister">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="InputPasswordRegister"
+          v-model="usuario.password"
+          placeholder="Password"
+        />
+      </div>
 
-        <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
-          <b-form-input
-            id="input-2"
-            v-model="usuario.nombre"
-            placeholder="Enter name"
-            required
-          ></b-form-input>
-        </b-form-group>
+      <div v-if="errors.length > 0">
+        <ul class="text-warning fw-bold">
+          <li v-for="error in errors" v-bind:key="error.index">{{ error }}</li>
+        </ul>
+      </div>
 
-        <b-form-group id="input-group-3" label="Your Password:" label-for="input-3">
-          <b-form-input
-            id="input-3"
-            type="password"
-            v-model="usuario.password"
-            placeholder="Enter name"
-            required
-          ></b-form-input>
-        </b-form-group>
-
-        <div v-if="errors.length > 0">
-          <ul class="text-warning fw-bold">
-            <li v-for="error in errors" v-bind:key="error.index">{{ error }}</li>
-          </ul>
-        </div>
-
-        <b-button type="submit"  variant="primary">Registrar</b-button>
-        <b-button type="reset"  variant="danger">Limpiar</b-button>
-      </b-form>
-      <b-modal id="modalUser" title="BootstrapVue">
-      <p class="my-4">{{this.usuario.nombre}} a sido cargado con exito</p>
-    </b-modal>
-
+      <button type="submit" @click="onSubmit" class="btn btn-primary">
+        Registrar
+      </button>
+      <button type="reset" @click="onReset" class="btn btn-danger">
+        Limpiar
+      </button>
+    </form>
+    
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   name: "RegistroPage",
   data() {
     return {
-      errors:[],
+      errors: [],
       usuario: {
-          "nombre": '',
-          "email": '',
-          "isAdmin": false,
-          "password": '',
-        },
-      show: true
+        nombre: "",
+        email: "",
+        isAdmin: false,
+        password: "",
+      },
+      show: true,
     };
   },
   methods: {
     onSubmit(e) {
-      e.preventDefault()
-      this.errors = []
+      e.preventDefault();
+      this.errors = [];
       if (this.usuario.nombre && this.usuario.email && this.usuario.password) {
-        if (!isNaN(this.nombre)){
-          this.errors.push('no puedes ingresar numeros en el nombre')
-          return false
+        if (!isNaN(this.nombre)) {
+          this.errors.push("no puedes ingresar numeros en el nombre");
+          return false;
         }
-        if(this.usuario.password.length <5){
-          this.errors.push('la contraseña debe tener 5 o mas caracteres')
-          return false
+        if (this.usuario.password.length < 5) {
+          this.errors.push("la contraseña debe tener 5 o mas caracteres");
+          return false;
         }
 
-        axios.post('https://62e857de93938a545be4aa1a.mockapi.io/users', this.usuario)
-        .then(() => {
-                    this.$bvModal.show('modalUser')
-                    this.$emit('guardar', this.usuario)})
-        .catch((err) => {console.error(`${err}`)})
+        axios
+          .post(
+            "https://62e857de93938a545be4aa1a.mockapi.io/users",
+            this.usuario
+          )
+          .then(() => {
+            this.$emit("guardar", this.usuario);
+          })
+          .catch((err) => {
+            console.error(`${err}`);
+          });
 
-        return true
+        return true;
       }
-      if (this.usuario.nombre === '') {this.errors.push('El nombre es obligatorio.')}
-      if (this.usuario.email === '') {this.errors.push('El correo electrónico es obligatorio.')}
-      if (this.usuario.password === '') {this.errors.push('El password es obligatorio.')}
-      
-      },
+      if (this.usuario.nombre === "") {
+        this.errors.push("El nombre es obligatorio.");
+      }
+      if (this.usuario.email === "") {
+        this.errors.push("El correo electrónico es obligatorio.");
+      }
+      if (this.usuario.password === "") {
+        this.errors.push("El password es obligatorio.");
+      }
+    },
     onReset() {
-        // Reset our form values
-        this.usuario.email = ''
-        this.usuario.nombre = ''
-        this.usuario.password = ''
-        // Trick to reset/clear native browser form validation state
-        this.show = false
-        this.$nextTick(() => {
-          this.show = true
-        })
-        }
+      // Reset our form values
+      this.usuario.email = "";
+      this.usuario.nombre = "";
+      this.usuario.password = "";
+      // Trick to reset/clear native browser form validation state
+      this.show = false;
+      this.$nextTick(() => {
+        this.show = true;
+      });
+    },
   },
 };
 </script>

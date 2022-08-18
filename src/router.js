@@ -1,13 +1,10 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import HomePage from './pages/HomePage'
 
-Vue.use(VueRouter)
-
-export default new VueRouter({
-    mode:'history',
-    base: process.env.BASE_URL,
+const router = createRouter({
+    history: createWebHistory(),
+    redirect: '/',
     routes:[
         {
             path:'/',
@@ -27,3 +24,5 @@ export default new VueRouter({
 
     ]
 })
+
+export default router

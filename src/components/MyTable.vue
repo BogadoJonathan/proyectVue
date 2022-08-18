@@ -19,8 +19,11 @@
                     <td><input type="number" class="form-control"  v-model.lazy="item.precio"/></td>
                     <td><input type="text" class="form-control"  v-model.lazy="item.descripcion"/></td>
                     <td><input type="text" class="form-control"  v-model.lazy="item.imagen"/></td>
-                    <button @click="editar(item.id)"><b-icon-file-earmark-post-fill></b-icon-file-earmark-post-fill></button>
-                    <button @click="borrar(item.id)"><b-icon-trash></b-icon-trash></button>
+                    <div style="display:flex">
+                    <button class="btn btn-primary btn-sm" @click="editar(item.id)">Edit</button>
+                    <button class="btn btn-danger btn-sm" @click="borrar(item.id)">Delete</button>
+                    </div>
+                    
                 </tr>
                 <br>
                 <tr>
@@ -29,7 +32,7 @@
                     <td><input type="number" class="form-control" placeholder="precio" v-model.lazy="newProduct.precio"/></td>
                     <td><input type="text" class="form-control" placeholder="descripcion" v-model.lazy="newProduct.descripcion"/></td>
                     <td><input type="text" class="form-control" placeholder="imagen" v-model.lazy="newProduct.imagen"/></td>
-                    <button @click="agregar"><b-icon-plus-circle></b-icon-plus-circle></button>
+                    <button class="btn btn-success btn-sm" @click="agregar">+</button>
                 </tr>
 
                 <tr v-if="errors.length > 0">
@@ -44,10 +47,8 @@
             </tbody>
             
         </table> 
-        
-        <b-modal id="modalproduct" title="BootstrapVue">
-          <p class="my-4">se modifico un producto</p>
-        </b-modal> 
+
+
   </div>
 </template>
 
@@ -109,7 +110,7 @@ export default {
       console.log(nuevoValor)
 
       axios.put('https://62e857de93938a545be4aa1a.mockapi.io/productos/'+id, nuevoValor)
-      .then(() => {this.$bvModal.show('modalproduct')})
+      .then(() => {alert('Se modifico un producto')})
       .catch((err) => {console.error(`${err}`)})
     }
   }
@@ -132,5 +133,15 @@ export default {
   text-align: center ;
   }
 
+  .modal {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.35s ease-in;
+}
+ 
+.modal.is-visible {
+  visibility: visible;
+  opacity: 1;
+}
   
 </style>

@@ -1,72 +1,74 @@
 <template>
   <div id="form">
     <h1>LOGIN</h1>
-    <b-form>
-        <b-form-group
-          id="input-group-1"
-          label="Email address:"
-          label-for="input-1"
-          description="We'll never share your email with anyone else."
-        >
-          <b-form-input
-            id="input-1"
-            v-model="email"
-            type="email"
-            placeholder="Enter email"
-            required
-          ></b-form-input>
-        </b-form-group>
-
-        <b-form-group 
-        id="input-group-3" 
-        label="Your Password:" 
-        label-for="input-3">
-          <b-form-input
-            id="input-3"
-            type="password"
-            v-model="password"
-            placeholder="Enter name"
-            required
-          ></b-form-input>
-        </b-form-group>
-
-        <b-button @click="ingresar" variant="primary">Ingresar</b-button>
-    </b-form>
+    <form>
+      <div class="form-group">
+        <label for="InputEmail">Email address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="InputEmail"
+          v-model="email"
+          aria-describedby="emailHelp"
+          placeholder="Enter email"
+        />
+      </div>
+      <div class="form-group">
+        <label for="InputPassword">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="InputPassword"
+          v-model="password"
+          placeholder="Password"
+        />
+      </div>
+      
+      <button type="submit" @click="ingresar" class="btn btn-primary">Ingresar</button>
+    </form>
+    
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   name: "LoginPage",
-  data(){
-    return{
-      usuarios:[],
-      email: '',
-      password: '',
-    }},
+  data() {
+    return {
+      usuarios: [],
+      email: "",
+      password: "",
+    };
+  },
   methods: {
-    ingresar(){
-      console.log('ingresar con el boton')
-      let found = this.usuarios.find(element => element.email == this.email && element.password == this.password)
+    ingresar() {
+      console.log("ingresar con el boton");
+      let found = this.usuarios.find(
+        (element) =>
+          element.email == this.email && element.password == this.password
+      );
 
-      if(found){
-        this.$emit('cambiar', found)
+      if (found) {
+        this.$emit("cambiar", found);
       }
     },
-    getUsers(){
-        axios.get('https://62e857de93938a545be4aa1a.mockapi.io/users')
+    getUsers() {
+      axios
+        .get("https://62e857de93938a545be4aa1a.mockapi.io/users")
         .then((response) => {
-          this.usuarios = response.data
-          this.usersCargados=true
-          })
-        .catch((err) => {console.error(`${err}`)})
+          this.usuarios = response.data;
+          this.usersCargados = true;
+        })
+        .catch((err) => {
+          console.error(`${err}`);
+        });
     },
   },
-  mounted(){
+  mounted() {
     // invocar los métodos
-    this.getUsers()
+    this.getUsers();
   },
 };
 </script>
@@ -76,5 +78,4 @@ export default {
 #form {
   width: 40%;
 }
-
 </style>

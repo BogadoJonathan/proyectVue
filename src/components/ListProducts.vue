@@ -1,32 +1,30 @@
 <template>
   <div>
     <div class="nav-button">
-      <b-button v-if="!verCarro" style="margin: 10px" @click="cambiarACarrito">{{cantidadCarrito}} <b-icon-cart3></b-icon-cart3></b-button>
-      <b-button v-if="verCarro" style="margin: 10px" @click="cambiarACarrito">volver al listado</b-button>
-      <b-button style="margin: 10px" @click="salir">Salir</b-button>
+      <button v-if="!verCarro" class="btn btn-primary" style="margin: 10px" @click="cambiarACarrito">{{cantidadCarrito}} - carrito</button>
+      <button v-if="verCarro" class="btn btn-primary" style="margin: 10px" @click="cambiarACarrito">volver al listado</button>
+      <button class="btn btn-danger" style="margin: 10px" @click="salir">Salir</button>
     </div>
+    
     
     <CarritoDetalle v-if="verCarro" />
     <div v-if="!verCarro" class="listProductos">
-      <b-card v-for="(item, i) in $store.getters.getProducts"
-        :key="i"
-        :title="item.nombre"
-        :img-src="require('../assets/img/' + item.imagen)"
-        img-alt="Image"
-        img-top
-        tag="article"
-        style="max-width: 20rem"
-        class="mb-2"
-      >
-        <b-card-text>
-          {{ item.descripcion }}
-        </b-card-text>
-        <b-list-group flush>
-          <b-list-group-item>${{ item.precio }}</b-list-group-item>
-        </b-list-group>
+      <div class="card" style="width: 18rem;" v-for="(item, i) in $store.getters.getProducts" :key="i">
+        <img class="card-img-top" :src="getImage(item.imagen)" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{item.nombre}}</h5>
+          <p class="card-text">{{item.descripcion }}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">${{ item.precio }}</li>
 
-        <b-button @click="agregarAlCarrito(item)" variant="primary">Agregar +</b-button>
-      </b-card>
+        </ul>
+        <div class="card-body">
+          <a @click="agregarAlCarrito(item)" class="btn btn-primary">Agregar +</a>
+        </div>
+     </div>
+
+     
     </div>
   </div>
 </template>
@@ -52,6 +50,9 @@ export default {
     agregarAlCarrito(payload){
       this.cantidadCarrito += 1
       this.$store.dispatch('AgregarAlCarrito',payload)
+    },
+    getImage(imagen){
+      return require('../assets/img/' + imagen)
     },
     cambiarACarrito(){
       this.verCarro = !this.verCarro

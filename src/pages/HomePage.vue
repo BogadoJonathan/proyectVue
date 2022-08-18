@@ -38,8 +38,6 @@ export default {
   },
   methods:{
     ingresar(user){
-      console.log('aca cambiaria')
-
       this.nombre = user.nombre
       if(user.isAdmin){
         this.$store.dispatch('ChangeAdmin')
