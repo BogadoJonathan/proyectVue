@@ -1,9 +1,9 @@
 <template>
   <div id="form">
-    <h1>REGISTER</h1>
+    <h1>REGISTRATE</h1>
     <form v-if="show">
       <div class="form-group">
-        <label for="InputEmailRegister">Email address</label>
+        <label for="InputEmailRegister">Ingresa tu email</label>
         <input
           type="email"
           class="form-control"
@@ -14,7 +14,7 @@
         />
       </div>
       <div class="form-group">
-        <label for="InputNameRegister">Your name</label>
+        <label for="InputNameRegister">Ingresa tu nombre</label>
         <input
           type="text"
           class="form-control"
@@ -24,7 +24,7 @@
         />
       </div>
       <div class="form-group">
-        <label for="InputPasswordRegister">Password</label>
+        <label for="InputPasswordRegister">Ingresa la password</label>
         <input
           type="password"
           class="form-control"
@@ -33,6 +33,7 @@
           placeholder="Password"
         />
       </div>
+      <div class="espacio"></div>
 
       <div v-if="errors.length > 0">
         <ul class="text-warning fw-bold">
@@ -40,12 +41,13 @@
         </ul>
       </div>
 
-      <button type="submit" @click="onSubmit" class="btn btn-primary">
+      <button type="submit" @click="onSubmit" class="btn btn-light">
         Registrar
       </button>
-      <button type="reset" @click="onReset" class="btn btn-danger">
+      <button type="reset" @click="onReset" class="btn btn-dark">
         Limpiar
       </button>
+      <div class="espacio"></div>
     </form>
     
   </div>
@@ -123,6 +125,26 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.btn{
+  margin: 0px 10px ;
+  font-weight: bold;
+}
+.form-group input{
+  display: flex;
+  justify-content:center;
+  width: 300px;
+  margin: auto;
+  border: none;
+  margin-bottom: 10px;
+}
+
+form{
+  background-image:linear-gradient(to right, #d7f911 45%, #1fd200);
+  border-radius: 0px 0px 100px 0px;
+}
+
+
 #form {
   width: 40%;
 }

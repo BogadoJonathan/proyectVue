@@ -10,8 +10,8 @@
       <div v-if="!$store.getters.getIsAdmin" >
           <ListProducts />
       </div>
-      <div v-else>
-          <a href="/admin"><button>Acceder al panel</button></a>
+      <div v-else >
+          <a href="/admin" ><button class="btn btn-light green-color">Acceder al panel</button></a>
       </div>
     </section>
     
@@ -65,8 +65,14 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .access{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content:space-evenly
-}
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:space-evenly;
+    align-items: center;
+    padding: 10% 0%;
+    background: linear-gradient(56deg, #979797 20%, #474747 60%, #1aac72 100%);
+    width:100vw;
+    height:100vh; 
+  }
+
 </style>

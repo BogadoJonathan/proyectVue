@@ -1,3 +1,51 @@
 body{
     background: linear-gradient(56deg, #ffffff 20%, #e3e3e3 60%, #c6ffe8 100%);
 }
+
+h1 { 
+    background-image: linear-gradient(to right, #d7f911 45%, #1fd200);
+    font-family: 'Raleway', sans-serif; 
+    color: #ffffff;
+    text-shadow: 2px 2px 10px black;
+    font-size: 62px; 
+    font-weight: 800; 
+    line-height: 72px; 
+    margin: 0 0 24px; 
+    text-align: center; 
+    text-transform: uppercase; 
+}
+
+h2 { 
+    background-image: linear-gradient(to right, #6fcd809f 45%, #00b9169f );
+    font-family: 'Raleway', sans-serif; 
+    color: #ffffff;
+    text-shadow: 2px 2px 10px black;
+    font-size: 40px; 
+    font-weight: 800; 
+    line-height: 72px; 
+    margin: 0 0 24px; 
+    text-align: center; 
+    text-transform: uppercase; 
+}
+
+
+
+.green-color{
+    background: linear-gradient(56deg, #f6ff02 0%, #80ff00 46%, #05f293 100%);
+    }
+    
+.red-color{
+background: linear-gradient(56deg, #ff8d02 0%, #ff5900 46%, #f20505 100%);
+}
+
+.red-color:hover{
+    background: linear-gradient(56deg, #f20505 0%, #ff8d02 46%, #f20505 100%);
+    }
+    
+.green-color:hover{
+    background: linear-gradient(56deg, #05f293 0%, #f6ff02 46%, #05f293 100%);
+}
+
+.espacio{
+    padding-top: 20px;
+  }

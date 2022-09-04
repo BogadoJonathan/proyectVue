@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="nav-button">
-      <button v-if="!verCarro" class="btn btn-primary" style="margin: 10px" @click="cambiarACarrito">{{cantidadCarrito}} - carrito</button>
-      <button v-if="verCarro" class="btn btn-primary" style="margin: 10px" @click="cambiarACarrito">volver al listado</button>
-      <button class="btn btn-danger" style="margin: 10px" @click="salir">Salir</button>
+      <button v-if="!verCarro" class="btn btn-primary green-color" style="margin: 10px; color: black" @click="cambiarACarrito">{{cantidadCarrito}} - carrito</button>
+      <button v-if="verCarro" class="btn btn-dark" style="margin: 10px" @click="cambiarACarrito">volver al listado</button>
+      <button class="btn btn-danger red-color" style="margin: 10px" @click="salir">Salir</button>
     </div>
     
     
@@ -19,8 +19,10 @@
           <li class="list-group-item">${{ item.precio }}</li>
 
         </ul>
-        <div class="card-body">
-          <a @click="agregarAlCarrito(item)" class="btn btn-primary">Agregar +</a>
+        <div class="card-body bot-item">
+          <a @click="quitarDelCarrito(item)" class="btn btn-danger boton-item red-color">-</a>
+          <a @click="agregarAlCarrito(item)" class="btn btn-success boton-item green-color">+</a>
+          <spam class="cantidad">{{cantidadAgregada(item)}}</spam>
         </div>
      </div>
 
@@ -51,16 +53,29 @@ export default {
       this.cantidadCarrito += 1
       this.$store.dispatch('AgregarAlCarrito',payload)
     },
+    quitarDelCarrito(payload){
+      if(this.cantidadCarrito>0){
+        this.cantidadCarrito -= 1
+      }
+        
+      this.$store.dispatch('QuitarDelCarrito',payload)
+    },
     getImage(imagen){
       return require('../assets/img/' + imagen)
     },
     cambiarACarrito(){
       this.verCarro = !this.verCarro
     },
+    cantidadAgregada(item){
+      let productoFind = this.$store.getters.getCarrito.find(element => element.id == item.id)
+      return productoFind ?  productoFind.cantidad : 0
+    },
+    
     salir() {
       this.$store.dispatch('ChangeAccess')
     }
   },
+
   mounted(){
      // invocar los métodos
      this.$store.dispatch('cargarDatosProductos')
@@ -83,4 +98,43 @@ export default {
   flex-wrap: wrap;
   justify-content: space-evenly;
 }
+
+.bot-item{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.boton-item{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  border-radius: 5rem;
+  font-size: 40px;
+  width: 50px;
+  height: 50px;
+  border: none;
+}
+
+.cantidad{
+  margin-left: 10px;
+  font-size: 30px;
+}
+
+
+.boton-item:hover {
+transition: all 0.6s ease;
+transform-origin: center;
+
+transform:scale(1.20);
+transform-origin: center;
+}
+
+.card{
+  border-radius: 0px 0px 100px 100px;
+  margin-bottom: 30px;
+}
+
+
 </style>

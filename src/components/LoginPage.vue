@@ -3,7 +3,7 @@
     <h1>LOGIN</h1>
     <form>
       <div class="form-group">
-        <label for="InputEmail">Email address</label>
+        <label for="InputEmail">Email</label>
         <input
           type="email"
           class="form-control"
@@ -23,8 +23,9 @@
           placeholder="Password"
         />
       </div>
-      
-      <button type="submit" @click="ingresar" class="btn btn-primary">Ingresar</button>
+      <div class="espacio"></div>
+      <button type="submit" @click="ingresar" class="btn btn-light">Ingresar</button>
+      <div class="espacio"></div>
     </form>
     
   </div>
@@ -77,5 +78,24 @@ export default {
 <style scoped>
 #form {
   width: 40%;
+}
+
+form{
+  background-image:linear-gradient(to right, #d7f911 45%, #1fd200);
+  border-radius: 0px 0px 0px 100px;
+}
+
+.form-group input{
+  display: flex;
+  justify-content:center;
+  width: 300px;
+  margin: auto;
+  border: none;
+  margin-bottom: 10px;
+}
+
+.btn{
+  color: black;
+  font-weight: bold;
 }
 </style>

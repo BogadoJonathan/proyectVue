@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>CARRITO</h1>
+    <h2>CARRITO</h2>
     <ul>
       <li v-for="(item, i) in $store.getters.getCarrito" :key="i">
         <b>Nombre:</b> {{$store.getters.getProducts.find(element => element.id == item.id).nombre}}
@@ -9,8 +9,8 @@
         <b>SubTotal:</b> {{obtenerSubtotal(item.cantidad)}}
       </li>
     </ul>
-    <h2>Total: {{sumarAlTotal}}</h2>
-    <button @click="completar">guardar carrito</button>
+    <h3>Total: {{sumarAlTotal}}</h3>
+    <button @click="completar" class="btn btn-dark">guardar carrito</button>
     <br><br>
     <div v-if="carritosGuardados.length > 0" >
 

@@ -50,6 +50,16 @@ export default Vuex.createStore({
                 state.carrito.push(dato)
             }
             
+        },
+        MutQuitarDelCarrito: (state,payload) =>{
+            let found = state.carrito.find(element => element.id == payload.id)
+            if(found && found.cantidad>0){
+                found.cantidad -=1
+                if(found.cantidad == 0){
+                    state.carrito = state.carrito.filter((item) => item.id !== found.id)
+                }
+            }
+            
         }
 
     },
@@ -73,6 +83,9 @@ export default Vuex.createStore({
         },
         AgregarAlCarrito: (context,payload) => {
             context.commit("MutAgregarAlCarrito",payload)
+        },
+        QuitarDelCarrito: (context,payload) => {
+            context.commit("MutQuitarDelCarrito",payload)
         }
     }
 
