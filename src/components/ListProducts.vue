@@ -6,7 +6,6 @@
       <button class="btn btn-danger red-color" style="margin: 10px" @click="salir">Salir</button>
     </div>
     
-    
     <CarritoDetalle v-if="verCarro" />
     <div v-if="!verCarro" class="listProductos">
       <div class="card" style="width: 18rem;" v-for="(item, i) in $store.getters.getProducts" :key="i">
@@ -26,7 +25,6 @@
         </div>
      </div>
 
-     
     </div>
   </div>
 </template>
@@ -61,7 +59,18 @@ export default {
       this.$store.dispatch('QuitarDelCarrito',payload)
     },
     getImage(imagen){
-      return require('../assets/img/' + imagen)
+      let retorno = null;
+
+      if(imagen.indexOf('https://') >= 0 || imagen.indexOf('http://') >= 0) {
+          return imagen;
+      }
+      try {
+        retorno = require('../assets/img/' + imagen);
+      } catch (error) {
+        retorno = null
+      }
+      
+      return retorno
     },
     cambiarACarrito(){
       this.verCarro = !this.verCarro
@@ -69,8 +78,7 @@ export default {
     cantidadAgregada(item){
       let productoFind = this.$store.getters.getCarrito.find(element => element.id == item.id)
       return productoFind ?  productoFind.cantidad : 0
-    },
-    
+    },  
     salir() {
       this.$store.dispatch('ChangeAccess')
     }
